@@ -1,0 +1,305 @@
+@startuml
+set separator /
+!pragma useIntermediatePackages false
+skinparam linetype ortho
+skinparam MinClassWidth 140
+hide circle
+hide empty members
+!theme _none_
+abstract class App.Database.Entity.Application {
++ albumNumber : ?int = null
++ applicationNumber : ?string = null
++ employeeComment : ?string = null
++ employeeCommentDate : ?DateTimeImmutable = null
++ applicationDetailsSeen : ?DateTimeImmutable = null
++ dean : string = ''
++ phone : ?libphonenumber.PhoneNumber = null
++ status : ?string = null
++ adaptationCard : ?App.Database.Entity.Dictionary.Item = null
++ faculty : ?App.Database.Entity.Dictionary.Item = null
++ files : Doctrine.Common.Collections.Collection
++ studyMode : ?App.Database.Entity.Dictionary.Item = null
++ student : App.Database.Entity.Student
++ type : ?App.Database.Entity.Dictionary.Item = null
++ year : ?App.Database.Entity.Dictionary.Item = null
++ semester : ?App.Database.Entity.Dictionary.Item = null
+}
+abstract class App.Database.Entity.BaseEntity {
++ id : string
+# createdAt : DateTimeImmutable
+# updatedAt : ?DateTimeImmutable
+}
+class App.Database.Entity.OfficeRegistrationRegisteredStudent {
++ meetingMode : ?string = null
++ confirmed : ?bool = null
++ description : ?string = null
++ registration : ?App.Database.Entity.OfficeRegistration = null
++ student : ?App.Database.Entity.Student = null
+}
+class App.Database.Entity.Dictionary {
++ name : App.Enum.Dictionary.DictionaryNameEnum
++ nameEnglish : ?string = null
++ items : Doctrine.Common.Collections.Collection
+}
+class App.Database.Entity.Inventory {
++ status : ?string = null
++ description : ?string = null
++ serialNumber : ?string = null
++ rentStart : ?DateTimeImmutable = null
++ rentEnd : ?DateTimeImmutable = null
++ equipment : App.Database.Entity.InventoryType
++ student : ?App.Database.Entity.Student = null
+}
+class App.Database.Entity.Questionnaire {
++ q1 : int
++ q2 : int
++ q3 : int
++ q4 : int
++ q5 : int
++ q6 : ?string = null
++ q7 : int
++ q8 : ?string = null
++ q9 : int
++ q10 : int
++ q11 : int
++ q12 : ?string = null
++ q13 : ?string = null
++ q14 : ?string = null
+}
+class App.Database.Entity.OfficeRegistration {
++ startAt : ?DateTimeImmutable = null
++ endAt : ?DateTimeImmutable = null
++ teamsMeetingUrl : ?string = null
++ eventId : ?string = null
++ registeredStudents : Doctrine.Common.Collections.Collection
+}
+class App.Database.Entity.ErrorLog {
++ level : string = 'error'
++ message : string = ''
++ channel : ?string = null
++ exceptionClass : ?string = null
++ trace : ?string = null
++ context : ?array = null
++ extra : ?array = null
+}
+class App.Database.Entity.File {
++ category : string = ''
++ category2 : ?string = null
++ extension : ?string = null
++ fileName : ?string = null
++ fileSize : ?int = null
++ originalExtension : ?string = null
++ originalName : ?string = null
++ application : ?App.Database.Entity.Application = null
+}
+class App.Database.Entity.User {
++ azureId : ?string = null
++ email : string
++ isActive : bool
++ firstName : ?string = ''
++ lastName : ?string = ''
++ roles : array
+}
+class App.Database.Entity.RegisteredStudent {
++ specialNeeds : ?string = null
++ meetingMode : ?string = null
++ phone : ?libphonenumber.PhoneNumber = null
++ albumNumber : ?int = null
++ language : ?string
++ registration : ?App.Database.Entity.Registration = null
++ student : ?App.Database.Entity.Student = null
+}
+class App.Database.Entity.Student {
++ azureId : ?string = null
++ email : string
++ firstName : string
++ albumNumber : ?int
++ phone : ?libphonenumber.PhoneNumber = null
++ specialNeeds : ?string = null
++ kierunekVerbis : ?string = null
++ wydzialVerbis : ?string = null
++ rokStudiowVerbis : ?int = null
++ semestrVerbis : ?int = null
++ trybZajecVerbis : ?string = null
++ isActive : bool
++ lastName : string
++ password : ?string = null
++ roles : array
++ recommendedWebsite : ?DateTimeImmutable = null
++ cookiesAccept : ?DateTimeImmutable = null
++ notificationLanguage : ?string = null
++ lastLogin : ?DateTimeImmutable = null
++ announcementSeen : ?DateTimeImmutable = null
++ disabilityCountry : ?string = ''
++ disabilityType : ?array = null
++ disabilityDegree : ?string = ''
++ disabilityExpiration : ?DateTimeImmutable = null
+- registrations : Doctrine.Common.Collections.Collection
++ studyMode : ?App.Database.Entity.Dictionary.Item
++ studyYear : ?App.Database.Entity.Dictionary.Item
++ adaptationType : Doctrine.Common.Collections.Collection
++ studySemester : ?App.Database.Entity.Dictionary.Item
++ department : ?App.Database.Entity.Dictionary.Item
++ faculty : ?App.Database.Entity.Dictionary.Item
++ adaptationExpiration : ?App.Database.Entity.Dictionary.Item = null
+}
+class App.Database.Entity.InventoryType {
++ type : string
++ inv : App.Database.Entity.Dictionary.Item
+}
+class App.Database.Entity.Dictionary.Item {
++ hiddenValue : ?string
++ secondaryValue : ?string
++ value : ?string
++ valueEnglish : ?string
++ displayOrder : ?int = 1
++ valueKey : ?string = null
++ valueKeyEng : ?string = null
++ valueKey2 : ?string = null
++ valueKey2Eng : ?string = null
++ isActive : int
++ dictionary : ?App.Database.Entity.Dictionary = null
+}
+class App.Database.Entity.ResetPasswordRequest {
++ expiresAt : DateTimeImmutable
++ requestedAt : DateTimeImmutable
++ selector : string
++ hashedToken : string
++ user : App.Database.Entity.Student
+}
+class App.Database.Entity.Log {
+# actionExecutedAt : DateTimeImmutable
+# actionType : string
+# entityClass : string
+# entityId : string
+# messageId : string
+# oldData : ?array = null
+# newData : ?array = null
+}
+class App.Database.Entity.Faq {
++ question : string
++ answer : string
++ language : App.Form.LanguageEnum
+}
+class App.Database.Entity.Application.EducationalProcess {
++ adaptation_another : ?string = null
++ description : ?string = null
++ adaptations : Doctrine.Common.Collections.Collection
+}
+class App.Database.Entity.Application.SpecialisedEquipment {
++ description : ?string = null
++ rentEnd : ?DateTimeImmutable = null
++ rentStart : ?DateTimeImmutable = null
++ equipment : Doctrine.Common.Collections.Collection
+}
+class App.Database.Entity.Application.TeachingAssistant {
++ assistantHours : ?string = null
++ assistantTask : ?string = null
++ assistant : ?string = null
++ preferences : Doctrine.Common.Collections.Collection
+}
+class App.Database.Entity.Application.LanguageInterpreter {
++ justification : ?string = null
++ anotherPreferences : ?string = null
++ request : Doctrine.Common.Collections.Collection
++ preferences : ?App.Database.Entity.Dictionary.Item
+}
+class App.Database.Entity.AuditLog {
++ entityClass : string
++ entityId : array = []
++ action : string
+- changes : ?array = null
+- userId : ?string = null
+- context : ?array = null
+}
+class App.Database.Entity.Registration {
++ startsAt : ?DateTimeImmutable = null
++ endsAt : ?DateTimeImmutable = null
++ capacity : int
++ description : ?string = null
++ teamsMeetingUrl : ?string = null
++ eventId : ?string = null
++ registeredStudents : Doctrine.Common.Collections.Collection
++ title : App.Database.Entity.Dictionary.Item
++ specialist : ?App.Database.Entity.User = null
++ language : App.Database.Entity.Dictionary.Item
+}
+class App.Database.Entity.Announcements {
++ startsAt : ?DateTimeImmutable = null
++ expiresAt : ?DateTimeImmutable = null
++ description : ?string = null
++ title : ?string = null
++ published : bool
+}
+class Vich.UploaderBundle.Entity.File {
+# name : ?string = null
+# originalName : ?string = null
+# mimeType : ?string = null
+# size : ?int = null
+# dimensions : ?array = null
+}
+App.Database.Entity.Application <|-- App.Database.Entity.Application.EducationalProcess
+App.Database.Entity.Application <|-- App.Database.Entity.Application.LanguageInterpreter
+App.Database.Entity.Application <|-- App.Database.Entity.Application.SpecialisedEquipment
+App.Database.Entity.Application <|-- App.Database.Entity.Application.TeachingAssistant
+App.Database.Entity.Application "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application "*" --> "1" App.Database.Entity.Student
+App.Database.Entity.Application "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.OfficeRegistrationRegisteredStudent "*" -- "1" App.Database.Entity.OfficeRegistration
+App.Database.Entity.OfficeRegistrationRegisteredStudent "*" -- "1" App.Database.Entity.Student
+App.Database.Entity.Inventory "*" --> "1" App.Database.Entity.InventoryType
+App.Database.Entity.Inventory "*" --> "1" App.Database.Entity.Student
+App.Database.Entity.File "*" --> "1" App.Database.Entity.Application
+App.Database.Entity.RegisteredStudent "*" -- "1" App.Database.Entity.Registration
+App.Database.Entity.RegisteredStudent "*" -- "1" App.Database.Entity.Student
+App.Database.Entity.Student "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Student "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Student "*" --> "*" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Student "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Student "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Student "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Student "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.InventoryType "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Dictionary.Item "*" -- "1" App.Database.Entity.Dictionary
+App.Database.Entity.ResetPasswordRequest "*" --> "1" App.Database.Entity.Student
+App.Database.Entity.Application.EducationalProcess "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.EducationalProcess "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.EducationalProcess "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.EducationalProcess "*" --> "1" App.Database.Entity.Student
+App.Database.Entity.Application.EducationalProcess "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.EducationalProcess "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.EducationalProcess "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.EducationalProcess "*" --> "*" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.SpecialisedEquipment "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.SpecialisedEquipment "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.SpecialisedEquipment "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.SpecialisedEquipment "*" --> "1" App.Database.Entity.Student
+App.Database.Entity.Application.SpecialisedEquipment "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.SpecialisedEquipment "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.SpecialisedEquipment "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.SpecialisedEquipment "*" --> "*" App.Database.Entity.Inventory
+App.Database.Entity.Application.TeachingAssistant "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.TeachingAssistant "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.TeachingAssistant "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.TeachingAssistant "*" --> "1" App.Database.Entity.Student
+App.Database.Entity.Application.TeachingAssistant "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.TeachingAssistant "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.TeachingAssistant "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.TeachingAssistant "*" --> "*" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.LanguageInterpreter "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.LanguageInterpreter "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.LanguageInterpreter "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.LanguageInterpreter "*" --> "1" App.Database.Entity.Student
+App.Database.Entity.Application.LanguageInterpreter "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.LanguageInterpreter "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.LanguageInterpreter "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.LanguageInterpreter "*" --> "*" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Application.LanguageInterpreter "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Registration "*" --> "1" App.Database.Entity.Dictionary.Item
+App.Database.Entity.Registration "*" --> "1" App.Database.Entity.User
+App.Database.Entity.Registration "*" --> "1" App.Database.Entity.Dictionary.Item
+@enduml
