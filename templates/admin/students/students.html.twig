@@ -1,0 +1,188 @@
+{% extends 'admin/_layouts/after-login.html.twig' %}
+{% block title %}{% trans %}Studenci{% endtrans %} | Admin Help VIZJA{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('admin_default') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('admin_default') }}
+{% endblock %}
+
+{% block body %}
+    {{ website_path([
+        { label: 'Ustawienia'|trans, route: 'admin_settings' },
+        { label: 'Studenci'|trans },
+    ]) }}
+
+    <div class="p-4">
+        <!-- Nagłówek -->
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-2xl font-bold text-zinc-800 dark:text-white">
+                {% trans %}Lista studentów{% endtrans %}
+            </h1>
+        </div>
+
+        <div class="mb-7 lg:w-1/2 md:w-full">
+            <form
+                method="get"
+                action="{{ path('admin_students') }}"
+                class="space-y-2"
+            >
+                <label
+                    for="user-search"
+                    class="block text-sm font-medium text-zinc-900 dark:text-white"
+                >
+                    {% trans %}Szukaj użytkownika{% endtrans %}
+                </label>
+
+                <div class="relative w-full">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg
+                            aria-hidden="true"
+                            class="h-5 w-5 text-zinc-500 dark:text-zinc-400"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
+                    </div>
+
+                    <input
+                        type="text"
+                        id="user-search"
+                        name="user"
+                        value="{{ filter.user ?? '' }}"
+                        class="block w-full rounded-lg border-2 border-zinc-500 bg-zinc-50 p-2 pl-10 text-sm text-zinc-900
+                       dark:border-zinc-500 dark:bg-zinc-700 dark:text-white dark:placeholder-zinc-400
+                       {{ focusPrimary() }}"
+                        placeholder="{% trans %}Znajdź użytkownika po imieniu, nazwisku lub mailu...{% endtrans %}"
+                    >
+                </div>
+            </form>
+        </div>
+
+        {% for user in users %}
+            <ul class="max-w-6xl divide-y divide-default">
+                <li class="py-3 pb-0 sm:pt-4">
+                    <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                        <div class="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-semibold overflow-hidden dark:bg-yellow-400">
+                        <span class="avatar-initials hidden">
+                        {{ user.initials }}
+                        </span>
+                            <img
+                                src="{{ path('admin_ms_user_photo', { upn: user.email }) }}"
+                                alt="{{ user.initials }}"
+                                class="rounded-full w-12 h-12"
+                                onerror=
+                                "this.style.display='none';
+                            this.parentElement.querySelector('.avatar-initials').classList.remove('hidden');"
+                            >
+
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-heading truncate">
+                                {{ user.firstName }} {{ user.lastName }}
+                            </p>
+                            <p class="text-sm text-body truncate">
+                                {{ user.email }}
+                            </p>
+                        </div>
+
+                        <div class="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
+                            {# --- LEWA STRONA: ostatnie logowanie --- #}
+                            <div class="text-base text-heading">
+                                Ostatnie logowanie:
+                                {% if user.lastLogin %}
+                                    <strong class="ml-1">{{ user.lastLogin|date('d.m.Y H:i') }}</strong>
+                                {% else %}
+                                    <strong class="ml-1">{% trans %}Brak logowań{% endtrans %}</strong>
+                                {% endif %}
+                            </div>
+
+                            <a class="{{ buttonPrimary() }} {{ focusPrimaryWithPadding() }}" href="{{ url('admin_students_profile', { id: user.id }) }}">
+                                {% trans %}Profil{% endtrans %}
+                            </a>
+
+                            {# --- PRAWA STRONA: akcja --- #}
+                            <div class="flex items-center">
+                                {% if user.isActive %}
+                                    {% set formId  = 'block-student-form-' ~ user.id %}
+                                    {% set modalId = 'blockStudentModal-' ~ user.id %}
+
+                                    <form
+                                        id="{{ formId }}"
+                                        method="post"
+                                        action="{{ url('admin_students_block', {id: user.id}) }}"
+                                    >
+                                        <input type="hidden" name="_token" value="{{ csrf_token('block_student_' ~ user.id) }}">
+
+                                        <button
+                                            type="button"
+                                            data-modal-target="{{ modalId }}"
+                                            data-modal-toggle="{{ modalId }}"
+                                            class="cursor-pointer {{ buttonDanger() }} {{ focusPrimaryWithPadding() }}"
+                                        >
+                                            {% trans %}Zablokuj konto{% endtrans %}
+                                        </button>
+                                    </form>
+
+                                    {% include 'admin/_components/confirm-modal.html.twig' with {
+                                        modalId: modalId,
+                                        formId: formId,
+                                        title: 'Zablokować konto użytkownika?',
+                                        message: 'Na pewno chcesz zablokować konto użytkownika <br><strong>' ~ user.firstName ~ ' ' ~ user.lastName ~ '</strong>?',
+                                        warningText: 'Zablokowany użytkownik nie będzie mógł logować się do systemu, dopóki nie aktywujesz konta ponownie.',
+                                        confirmLabel: 'Zablokuj',
+                                        cancelLabel: 'Anuluj'
+                                    } %}
+                                {% else %}
+                                    {% set formId  = 'restore-student-form-' ~ user.id %}
+                                    {% set modalId = 'restoreStudentModal-' ~ user.id %}
+
+                                    <form
+                                        id="{{ formId }}"
+                                        method="post"
+                                        action="{{ url('admin_students_restore', {id: user.id}) }}"
+                                    >
+                                        <input type="hidden" name="_token" value="{{ csrf_token('restore_student_' ~ user.id) }}">
+
+                                        <button
+                                            type="button"
+                                            data-modal-target="{{ modalId }}"
+                                            data-modal-toggle="{{ modalId }}"
+                                            class="cursor-pointer {{ buttonSecondary() }} {{ focusPrimaryWithPadding() }}"
+                                        >
+                                            {% trans %}Aktywuj konto{% endtrans %}
+                                        </button>
+                                    </form>
+
+                                    {% include 'admin/_components/confirm-modal.html.twig' with {
+                                        modalId: modalId,
+                                        formId: formId,
+                                        title: 'Aktywować konto użytkownika?'|trans,
+                                        message: 'Na pewno chcesz aktywować konto użytkownika <br><strong>'|trans ~ user.firstName ~ ' ' ~ user.lastName ~ '</strong>?',
+                                        warningText: 'Po aktywacji użytkownik odzyska dostęp do systemu.'|trans,
+                                        confirmLabel: 'Aktywuj'|trans,
+                                        cancelLabel: 'Anuluj'|trans
+                                    } %}
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="mt-4 border-t border-zinc-100 dark:border-zinc-800"></div>
+                </li>
+            </ul>
+        {% endfor %}
+    </div>
+
+    {% include '_paginator/paginator.html.twig' with { pagination: pagination } %}
+
+{% endblock %}

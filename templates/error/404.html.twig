@@ -1,0 +1,41 @@
+{% extends 'student/_layouts/after-login.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('admin_default') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('admin_default') }}
+{% endblock %}
+
+{% block body %}
+    <div class="min-h-[60vh] flex items-center justify-center px-4 py-8">
+        <div class="w-full max-w-xl rounded-2xl shadow-xl px-6 py-8 text-center">
+            <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-full border-2 border-rose-400 bg-rose-50 text-2xl">
+                404
+
+            </div>
+
+            <h1 class="mb-2 text-2xl font-bold text-slate-900">
+                Brak dostępu
+            </h1>
+
+            <p class="mb-2 text-slate-700">
+                Nie posiadasz uprawnień do wyświetlania lub edytowania tej strony.
+            </p>
+
+            <div class="mb-8 text-xs text-slate-400">
+                Kod błędu:
+                <span class="font-semibold text-slate-600">
+                    {{ status_code }}
+                </span>
+            </div>
+
+            <a href="{{ path('student_dashboard') }}"
+                class="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-blue-600 text-white text-sm font-semibold shadow-lg hover:bg-blue-700 hover:shadow-xl">
+                Wróć na stronę główną
+            </a>
+        </div>
+    </div>
+{% endblock %}
+

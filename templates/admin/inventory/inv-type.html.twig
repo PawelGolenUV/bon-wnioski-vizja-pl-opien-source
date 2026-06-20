@@ -1,0 +1,147 @@
+{% extends 'admin/_layouts/after-login.html.twig' %}
+
+{% block stylesheets %}{{ encore_entry_link_tags('admin_default') }}{% endblock %}
+{% block javascripts %}{{ encore_entry_script_tags('admin_default') }}{% endblock %}
+{% block title %}{% trans %}Typy sprzętu{% endtrans %}{% endblock %}
+{% block body %}
+    <header class="mb-6 flex items-start justify-between gap-4">
+        {{ website_path([
+            { label: 'Ustawienia'|trans, route: 'admin_settings' },
+            { label: 'Inwentaryzacja sprzętu'|trans, route: 'admin_inventory' },
+            { label: 'Lista typów sprzętu'|trans, },
+        ]) }}
+    </header>
+
+    {# Szybkie wyszukiwanie #}
+    <div class="mb-6">
+        <label for="inventory-search" class="sr-only">{% trans %}Szukaj{% endtrans %}</label>
+        <input id="inventory-search" type="search" placeholder="{% trans %}Szukaj typu…{% endtrans %}"
+            class="w-full rounded-xl border border-zinc-300 bg-white px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-400
+                  focus:ring-4 focus:ring-zinc-100 focus:outline-none
+                  dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder-zinc-500 dark:focus:ring-zinc-800"
+            oninput="filterCards(this.value)">
+    </div>
+
+    <a class="{{ buttonPrimary() }} {{ focusPrimaryWithPadding() }}" href="{{ url('admin_create_inv_type', { dictionaryItemId: item.id }) }}">
+        {% trans %}Dodaj typ{% endtrans %}
+    </a>
+
+    <section class="bg-white p-4 rounded-lg dark:bg-zinc-900 mt-4">
+        <h1 class="text-xl font-semibold text-zinc-900 dark:text-white sm:text-2xl md:text-3xl">
+            {% trans %}Lista typów sprzętu{% endtrans %} - {{ item.value }}
+        </h1>
+
+        {% set types = inventories is iterable ? inventories : inventories.getQuery().getResult() %}
+
+        {% if types is empty %}
+            <div class="mt-10 rounded-lg border border-dashed border-zinc-300 p-8 text-center dark:border-zinc-700">
+                <p class="text-zinc-600 dark:text-zinc-300">
+                    {% trans %}Brak zdefiniowanych typów sprzętu{% endtrans %}
+                </p>
+                <a href="{{ path('admin_create_inv_type', { dictionaryItemId: item.id }) }}"
+                    class="inline-flex items-center mt-4 rounded-lg border border-primary-700 bg-primary-700 px-4 py-2.5 text-sm font-medium text-white
+                  hover:border-primary-800 hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300
+                  dark:border-primary-600 dark:bg-primary-600 dark:hover:border-primary-700 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                    {% trans %}Dodaj typ{% endtrans %}
+                </a>
+            </div>
+        {% else %}
+            <div id="inventory-grid" class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {% for type in types %}
+                    {# ----- tytuł ----- #}
+                    {% set title = attribute(type, 'type') is defined and type.type ? type.type : '—' %}
+
+                    {# ----- body_html ----- #}
+                    {% set body_html %}
+                        <dl class="space-y-2 text-sm">
+                            <div class="flex items-center justify-between">
+                                <dt class="text-zinc-500 dark:text-zinc-400">{% trans %}Liczba{% endtrans %}</dt>
+                                <dd class="font-medium text-zinc-900 dark:text-zinc-100">
+                                    {{ inventoryCount[type.id]|default(0) }}
+                                </dd>
+                            </div>
+
+                            {% if attribute(type, 'inv') is defined and type.inv and attribute(type.inv, 'description') is defined and type.inv.description %}
+                                <div class="pt-2 text-zinc-700 dark:text-zinc-200">
+                                    <p class="line-clamp-3">{{ type.inv.description }}</p>
+                                </div>
+                            {% endif %}
+                        </dl>
+                    {% endset %}
+
+                    {# ----- actions_html ----- #}
+                    {% set actions_html %}
+                        <div class="mt-4 flex items-center gap-1.5 flex-wrap">
+                            {% if attribute(type, 'inv') is defined and type.inv %}
+                                <a class="{{ buttonPrimary() }} {{ focusPrimaryWithPadding() }}" href="{{ url('admin_inventory_items',{ item: type.inv.id, inventoryTypeId: type.id }) }}">
+                                    {% trans %}Pokaż rodzaj{% endtrans %}
+                                </a>
+                            {% endif %}
+
+                            <a
+                                class="{{ buttonSecondary() }} {{ focusPrimaryWithPadding() }}"
+                                href="{{path('admin_update_inv_type', { item: item.id, inventoryTypeId: type.id }) }}"
+                            >
+                                {% trans %}Edytuj{% endtrans %}
+                            </a>
+
+                            {# unikalne ID dla formularza i modala #}
+                            {% set formId  = 'delete-inv-type-form-' ~ type.id %}
+                            {% set modalId = 'deleteInvTypeModal-' ~ type.id %}
+
+                            <form
+                                id="{{ formId }}"
+                                method="post"
+                                action="{{ path('admin_delete_inv_type', { inventoryTypeId: type.id }) }}"
+                                class="ml-1"
+                            >
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ type.id) }}">
+
+                                {# zamiast submit – przycisk otwierający modal #}
+                                <button
+                                    type="button"
+                                    data-modal-target="{{ modalId }}"
+                                    data-modal-toggle="{{ modalId }}"
+                                    class="{{ buttonDelete() }}"
+                                >
+                                    {{ 'Usuń'|trans }}
+                                </button>
+                            </form>
+
+                            {# modal potwierdzenia #}
+                            {% include 'admin/_components/confirm-modal.html.twig' with {
+                                modalId: modalId,
+                                formId: formId,
+                                title: 'Usuwanie sprzętu'|trans,
+                                message: 'Na pewno chcesz usunąć pozycję: <br><strong>'|trans ~ type.type ~ '</strong>?',
+                                warningText: 'Operacja jest nieodwracalna'|trans,
+                                confirmLabel: 'Usuń'|trans,
+                                cancelLabel: 'Anuluj'|trans
+                            } %}
+
+                        </div>
+                    {% endset %}
+
+                    {{ inventory_card(
+                        title,
+                        body_html,
+                        actions_html
+                    ) }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </section>
+
+    {% include '_paginator/paginator.html.twig' with { pagination: pagination } %}
+
+    <script>
+        function filterCards(q = '') {
+            q = (q || '').trim().toLowerCase();
+            const cards = document.querySelectorAll('[data-card]');
+            cards.forEach(c => {
+                const text = (c.innerText || '').toLowerCase();
+                c.style.display = text.includes(q) ? '' : 'none';
+            });
+        }
+    </script>
+{% endblock %}

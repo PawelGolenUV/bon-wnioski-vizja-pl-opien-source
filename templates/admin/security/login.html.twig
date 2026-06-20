@@ -1,0 +1,99 @@
+{% extends 'admin/_layouts/before-login.html.twig' %}
+{% block title %}{% trans %}Zaloguj się{% endtrans %}{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('admin_default') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('admin_default') }}
+{% endblock %}
+
+{% block body %}
+    <div class="grid lg:h-screen">
+        <div class="flex items-center justify-center px-4 py-10 lg:py-0">
+            <form action="{{ path('admin_security_login') }}" class="max-w-xl space-y-5 w-full" method="post">
+                <input type="hidden" data-controller="csrf-protection" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <div class="flex items-center justify-end mb-10">
+                    {% include 'admin/_components/change-language.html.twig' %}
+                    {% include 'admin/_components/change-theme.html.twig' %}
+                </div>
+                <figure class="max-w-lg mx-auto">
+                    <img alt="{% trans %}Logo Uniwersytetu Vizja{% endtrans %}" class="block max-w-9/12 mx-auto dark:hidden" src="{{ asset('images/logo/pl-vertical.png') }}">
+                    <img alt="{% trans %}Logo Uniwersytetu Vizja{% endtrans %}" class="hidden max-w-9/12 mx-auto dark:block" src="{{ asset('images/logo/pl-vertical-transparent.png') }}">
+                </figure>
+
+                <a href="{{ path('admin_security_azure_login') }}"
+                    class="font-medium inline-flex items-center justify-center me-2 px-5 py-2.5 rounded-lg text-sm w-full dark:hover:bg-zinc-700 focus:outline-none focus:ring-3 focus:ring-blue-300 hover:bg-zinc-100"
+                    tabindex="5"
+                    type="button"
+                >
+
+                    <svg class="h-6 mr-2 w-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path clip-rule="evenodd" d="M3.005 12 3 6.408l6.8-.923v6.517H3.005ZM11 5.32 19.997 4v8H11V5.32ZM20.067 13l-.069 8-9.065-1.275L11 13h9.067ZM9.8 19.58l-6.795-.931V13H9.8v6.58Z"
+                            fill="currentColor" fill-rule="evenodd"></path>
+                    </svg>
+                    {% trans %}Zaloguj się kontem Office 365{% endtrans %}
+                </a>
+                <div class="flex items-center">
+                    <div class="bg-zinc-100 h-0.5 w-full dark:bg-zinc-700"></div>
+                    {#                    <div class="px-5 text-center text-zinc-500 dark:text-zinc-300">albo</div> #}
+                    <div class="bg-zinc-100 h-0.5 w-full dark:bg-zinc-700"></div>
+                </div>
+
+                {% if error %}
+                    <div class="bg-red-50 mb-4 p-4 rounded-lg text-center text-red-800 text-sm dark:bg-zinc-800 dark:text-red-400" role="alert">
+                        <span class="font-medium">
+                            {% trans %}Błąd{% endtrans %}!
+                        </span>
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
+
+                {#                <div> #}
+                {#                    <label for="username" class="block font-medium mb-2 text-sm"> #}
+                {#                        {% trans %}Email{% endtrans %} #}
+                {#                    </label> #}
+                {#                    <input type="text" #}
+                {#                        class="bg-zinc-100 block border-none p-2.5 rounded-lg text-sm w-full dark:bg-zinc-700 dark:placeholder-zinc-400 focus:outline-none focus:ring-3 focus:ring-blue-300" #}
+                {#                        id="username" #}
+                {#                        name="_username" #}
+                {#                        tabindex="1" #}
+                {#                        value="{{ last_username }}" #}
+                {#                    /> #}
+                {#                </div> #}
+                {#                <div> #}
+                {#                    <label for="password" class="block font-medium mb-2 text-sm"> #}
+                {#                        {% trans %}Hasło{% endtrans %} #}
+                {#                    </label> #}
+                {#                    <input type="password" #}
+                {#                        autocomplete="off" #}
+                {#                        class="bg-zinc-100 block border-none p-2.5 rounded-lg text-sm w-full dark:bg-zinc-700 dark:placeholder-zinc-400 focus:outline-none focus:ring-3 focus:ring-blue-300" #}
+                {#                        id="password" #}
+                {#                        name="_password" #}
+                {#                        tabindex="2" #}
+                {#                    /> #}
+                {#                </div> #}
+                {#                <div class="flex items-start"> #}
+                {#                    <div class="flex h-5 items-center"> #}
+                {#                        <input type="checkbox" #}
+                {#                            class="bg-zinc-100 border-none h-4 rounded-sm w-4 dark:bg-zinc-700 dark:border-zinc-600 dark:ring-offset-zinc-800 focus:outline-none focus:ring-3 focus:ring-blue-300" #}
+                {#                            id="remember" #}
+                {#                            tabindex="3" #}
+                {#                        /> #}
+                {#                    </div> #}
+                {#                <label for="remember" class="font-medium ms-2 text-sm"> #}
+                {#                    {% trans %}Zapamiętaj mnie{% endtrans %} #}
+                {#                </label> #}
+                {#                </div> #}
+                {#                <Button type="submit" #}
+                {#                    class="bg-blue-500 font-medium px-5 py-2.5 rounded-lg text-center text-sm text-white w-full dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none focus:ring-3 focus:ring-blue-300 hover:bg-blue-600" #}
+                {#                    tabindex="4" #}
+                {#                > #}
+                {#                    {% trans %}Zaloguj się{% endtrans %} #}
+                {#                </Button> #}
+            </form>
+        </div>
+    </div>
+{% endblock %}

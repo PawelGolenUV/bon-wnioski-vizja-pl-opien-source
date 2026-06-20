@@ -1,0 +1,48 @@
+{% extends 'admin/_layouts/after-login.html.twig' %}
+{% form_theme form 'student/_layouts/form-tailwind.html.twig' %}
+
+{% block stylesheets %}{{ encore_entry_link_tags('admin_default') }}{% endblock %}
+{% block javascripts %}{{ encore_entry_script_tags('admin_default') }}{% endblock %}
+{% block title %}{% trans %}Tworzenie ogłoszenia{% endtrans %}{% endblock %}
+{% block body %}
+    <div class="max-w-2xl space-y-4 w-full">
+        {{ form_start(form, { attr: { 'data-turbo': 'false' } }) }}
+
+        <div class="mb-5">
+            {{ form_row(form.title) }}
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+            {{ form_row(form.startsAt, {
+                attr: {
+                    min: '1900-01-01T00:00',
+                    max: '2099-12-31T23:59',
+                }
+            }) }}
+
+            {{ form_row(form.expiresAt, {
+                attr: {
+                    min: '1900-01-01T00:00',
+                    max: '2099-12-31T23:59',
+                }
+            }) }}
+        </div>
+        <div class="mb-5">
+            {{ form_row(form.published) }}
+        </div>
+    </div>
+    <div class="max-w-4xl space-y-4 w-full mb-5">
+        {{ form_row(form.description) }}
+    </div>
+    <div class="mt-4 flex flex-col sm:flex-row sm:items-center gap-4">
+        <button class="{{ buttonPrimary() }} {{ focusPrimaryWithPadding() }}" type="submit">
+            {% trans %}Utwórz{% endtrans %}
+        </button>
+        <a
+            class="{{ buttonSecondary() }} {{ focusPrimaryWithPadding() }}"
+            href="{{path('admin_announcement') }}"
+        >
+            {% trans %}Anuluj{% endtrans %}
+        </a>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,399 @@
+{% extends 'student/_layouts/before-login.html.twig' %}
+{% block title %}{% trans %}Zaloguj się{% endtrans %} | Help VIZJA{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('admin_default') }}
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('admin_default') }}
+{% endblock %}
+
+{% block body %}
+    <header>
+        <nav aria-label="{% trans %}Nawigacja górna{% endtrans %}" class="bg-white dark:bg-zinc-900">
+            <div class="flex flex-wrap items-center justify-end max-w-screen-2xl min-h-[100px] mx-auto px-4 py-2.5 md:px-4">
+                <div class="flex items-center md:space-x-2">
+                    {% include 'admin/_components/change-theme.html.twig' %}
+                    {% include 'student/_components/change-language.html.twig' %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="flex items-center justify-center gap-4 sm:gap-6">
+        <figure class="flex flex-1 justify-end">
+            <img
+                alt="{% trans %}Uniwersytet Vizja{% endtrans %}"
+                class="block h-auto w-full max-w-[180px] sm:max-w-[260px] md:max-w-[320px] dark:hidden"
+                src="{{ asset('images/logo/header/' ~ app.request.locale ~ '.png') }}"
+            >
+
+            <img
+                alt="{% trans %}Uniwersytet Vizja{% endtrans %}"
+                class="hidden h-auto w-full max-w-[180px] sm:max-w-[260px] md:max-w-[320px] dark:block"
+                src="{{ asset('images/logo/header/' ~ app.request.locale ~ '-transparent.png') }}"
+            >
+        </figure>
+
+        <figure class="flex flex-1 justify-start">
+            <img
+                alt="{% trans %}Logo Biura do spraw osób z niepełnosprawnościami{% endtrans %}"
+                class="block h-auto w-full max-w-[180px] sm:max-w-[260px] md:max-w-[320px]"
+                src="{{ asset('images/logo/bon/' ~ app.request.locale ~ '.jpg') }}"
+            >
+        </figure>
+    </div>
+
+    <section class="bg-zinc-50 dark:bg-zinc-900 mb-10">
+        <div class="bg-white flex items-center justify-center px-4">
+            <img fetchpriority="high" alt="{% trans %}Logo Funduszy Europejskich{% endtrans %}"
+                class="block w-full max-w-[800px] h-auto py-5"
+                src="{{ asset('images/logo/unijne_logotypy.png') }}">
+        </div>
+        <div class="max-w-screen-2xl mx-auto px-4 py-8 space-y-8">
+            <div class="bg-white mx-auto rounded-lg shadow-lg w-full max-w-200 dark:bg-zinc-800">
+                <div class="p-4 space-y-4 sm:p-8">
+                    <h1 id="login-page-title" class="font-semibold text-xl md:text-2xl lg:text-2xl">
+                        {% trans %}Wygodnie umawiaj spotkania i składaj wnioski z Help VIZJA{% endtrans %}
+                    </h1>
+
+{#                    <div class="space-y-4 text-zinc-700 dark:text-zinc-300">#}
+{#                        <p class="font-semibold">#}
+{#                            {% trans %}Skorzystaj z Help VIZJA, aby:{% endtrans %}#}
+{#                        </p>#}
+
+{#                        <ul class="list-disc space-y-2 pl-6">#}
+{#                            <li>{% trans %}umówić się na wizytę w Biurze ds. Osób z Niepełnosprawnościami,{% endtrans %}</li>#}
+{#                            <li>{% trans %}zapisać się na konsultację do specjalistów współpracujących z Biurem,{% endtrans %}</li>#}
+{#                            <li>{% trans %}złożyć wniosek o dostosowania i pomoce w zakresie szczególnych potrzeb.{% endtrans %}</li>#}
+{#                        </ul>#}
+{#                    </div>#}
+                </div>
+            </div>
+
+{#            <div class="bg-white mx-auto w-full max-w-200 rounded-lg shadow-lg dark:bg-zinc-800">#}
+{#                <div class="space-y-5 p-4 sm:p-8">#}
+{#                    <h2 id="page-title" class="text-lg font-semibold md:text-2xl lg:text-3xl">#}
+{#                        {% trans %}Ważna informacja{% endtrans %}#}
+{#                    </h2>#}
+
+{#                    <div class="space-y-3 text-zinc-700 dark:text-zinc-300">#}
+{#                        <p>#}
+{#                            {% trans %}#}
+{#                                Aby zapewnić poprawne działanie serwisu oraz najlepsze doświadczenie użytkownika,#}
+{#                                zalecamy korzystanie z jednej z poniższych przeglądarek:#}
+{#                            {% endtrans %}#}
+{#                        </p>#}
+
+{#                        <ul class="space-y-3">#}
+{#                            <li class="flex items-center gap-3">#}
+{#                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" class="w-7 h-7 rotate-120 bg-white rounded-full">#}
+{#                                    <!-- czerwony -->#}
+{#                                    <path#}
+{#                                        fill="#EA4335"#}
+{#                                        d="M64 320C64 273.4 76.5 229.6 98.3 191.1L208.1 382.3C230 421.5 271.9 448 320 448C334.3 448 347.1 445.7 360.8 441.4L284.5 573.6C159.9 556.3 64 449.3 64 320z"#}
+{#                                    />#}
+
+{#                                    <!-- żółty -->#}
+{#                                    <path#}
+{#                                        fill="#FBBC05"#}
+{#                                        d="M541.8 192L320 192C257.1 192 206.3 236.1 194.5 294.7L118.2 162.5C165 102.5 238 64 320 64C414.8 64 497.5 115.5 541.8 192z"#}
+{#                                    />#}
+
+{#                                    <!-- zielony -->#}
+{#                                    <path#}
+{#                                        fill="#34A853"#}
+{#                                        d="M429.1 385.6C441.4 366.4 448 343.1 448 320C448 281.8 431.2 247.5 404.7 224L557.4 224C569.4 253.6 576 286.1 576 320C576 461.4 461.4 575.1 320 576L429.1 385.6z"#}
+{#                                    />#}
+
+{#                                    <!-- środek -->#}
+{#                                    <path#}
+{#                                        fill="#4285F4"#}
+{#                                        d="M408 320C408 368.6 368.6 408 320 408C271.4 408 232 368.6 232 320C232 271.4 271.4 232 320 232C368.6 232 408 271.4 408 320z"#}
+{#                                    />#}
+{#                                </svg>#}
+
+{#                                <span>Google Chrome</span>#}
+{#                            </li>#}
+
+{#                            <li class="flex items-center gap-3">#}
+{#                                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 bg-white rounded-full" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path fill="rgb(206, 0, 0)" d="M385.9 96.7C215.7 96.7 133.3 320.5 238.4 451.8C274.9 497.2 327 527.4 385.9 527.4C422.2 527.4 456.2 516.3 485.3 497C441.5 536.2 383.4 560 320 560C316.1 560 312 560 308.1 559.7C176.6 553.6 72 445.1 72 312C72 175 183 64 320 64L320.8 64C383.9 64.3 441.5 88.1 485.2 127.1C456.2 107.7 422.1 96.7 385.9 96.7zM487.7 494.4C446.8 519.1 397 518 355.7 488.6C411.9 468.1 453.4 397 453.4 312C453.4 227.3 412.2 156.2 356 135.4C397.8 106.2 447.2 105.1 488.9 130.4C594.8 229.1 594.4 396.1 487.7 494.4z"/></svg>#}
+
+{#                                <span>Opera</span>#}
+{#                            </li>#}
+{#                        </ul>#}
+
+{#                        <p class="text-sm text-zinc-500 dark:text-zinc-400">#}
+{#                            {% trans %}#}
+{#                                Korzystanie z innych przeglądarek może powodować ograniczenia w działaniu niektórych funkcji.#}
+{#                            {% endtrans %}#}
+{#                        </p>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+
+            <div class="items-start max-w-200 mx-auto space-y-10">
+                <div class="bg-white mx-auto order-2 rounded-lg shadow-lg w-full dark:bg-zinc-800 md:mt-0 lg:order-1 xl:p-0">
+                    <div class="p-4 space-y-4 sm:p-8">
+                        <h2 class="font-semibold text-xl md:text-2xl lg:text-2xl">
+                            {% trans %}Studenci i pracownicy{% endtrans %}
+                        </h2>
+
+                        <p class="font-semibold">
+                            {% trans %}Jeśli posiadasz konto e-mail w domenie vizja.pl{% endtrans %}
+                        </p>
+
+                        <div class="space-y-8">
+                            <div>
+                                <a href="{{ path('security_azure_login') }}" class="{{ buttonPrimary() }} {{ focusPrimaryWithPadding() }} text-center w-full">
+                                    <div class="flex items-center justify-center">
+                                        <svg class="flex h-6 mr-2 w-6"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24">
+
+                                            <path clip-rule="evenodd"
+                                                d="M3.005 12 3 6.408l6.8-.923v6.517H3.005ZM11 5.32 19.997 4v8H11V5.32ZM20.067 13l-.069 8-9.065-1.275L11 13h9.067ZM9.8 19.58l-6.795-.931V13H9.8v6.58Z"
+                                                fill="currentColor"
+                                                fill-rule="evenodd" />
+                                        </svg>
+
+                                        <span>
+                                            {% trans %}Zaloguj się kontem Office 365{% endtrans %}
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white mx-auto order-2 rounded-lg shadow-lg w-full dark:bg-zinc-800 md:mt-0 lg:order-1 xl:p-0">
+                    <div class="p-4 space-y-4 sm:p-8">
+                        <h2 class="font-semibold text-xl md:text-2xl lg:text-2xl">
+                            {% trans %}Goście{% endtrans %}
+                        </h2>
+
+                        <p class="font-semibold">
+                            {% trans %}Jeśli posiadasz utworzone konto na adres e-mail poza domeną vizja.pl{% endtrans %}
+                        </p>
+
+                        <form action="{{ path('student_login') }}" class="space-y-5 w-full" method="post">
+
+                            <input type="hidden"
+                                data-controller="csrf-protection"
+                                name="_csrf_token"
+                                value="{{ csrf_token('authenticate') }}">
+
+                            {{ flash_messages() }}
+
+                            {% if error %}
+                                <div class="bg-red-50 mb-4 p-4 rounded-lg text-left text-red-800 dark:bg-red-100 dark:text-red-900"
+                                    role="alert"
+                                >
+                                      <span class="font-medium flex items-center gap-2">
+                                                <svg class="w-6 h-6 text-red-800 dark:text-red-700"
+                                                    aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="24"
+                                                    height="24"
+                                                    fill="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path fill-rule="evenodd"
+                                                        d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v5a1 1 0 1 0 2 0V8Zm-1 7a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H12Z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+
+                                                {% trans %}Błąd{% endtrans %}!
+                                            </span>
+
+                                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                                </div>
+                            {% endif %}
+
+                            <div>
+                                <label for="username" class="block font-medium mb-2">
+                                    {% trans %}Email{% endtrans %}
+                                </label>
+
+                                <input type="text"
+                                    id="username"
+                                    name="_username"
+                                    value="{{ last_username }}"
+                                    class="bg-zinc-100 block border-2 border-zinc-350 p-2.5 rounded-lg w-full dark:bg-zinc-700 dark:placeholder-zinc-400 {{ focusPrimary() }}">
+                            </div>
+
+                            <div>
+                                <label for="password" class="block font-medium mb-2">
+                                    {% trans %}Hasło{% endtrans %}
+                                </label>
+
+                                <input type="password"
+                                    id="password"
+                                    name="_password"
+                                    autocomplete="off"
+                                    class="bg-zinc-100 block border-2 border-zinc-350 p-2.5 rounded-lg w-full dark:bg-zinc-700 dark:placeholder-zinc-400 {{ focusPrimary() }}">
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="flex h-5 items-center">
+                                    <input type="checkbox"
+                                        id="remember"
+                                        class="bg-zinc-100 border-2 border-zinc-700 h-4 w-4 rounded-sm
+                                                dark:bg-zinc-700 dark:border-zinc-500 dark:ring-offset-zinc-800 {{ focusPrimary() }}">
+                                </div>
+
+                                <label for="remember" class="font-medium ms-2">
+                                    {% trans %}Zapamiętaj mnie{% endtrans %}
+                                </label>
+                            </div>
+
+                            <div class="flex flex-col gap-4 sm:flex-row sm:items-stretch">
+                                <button type="submit"
+                                    class="{{ buttonPrimary() }} {{ focusPrimaryWithPadding() }} cursor-pointer w-full sm:flex-1 flex items-center justify-center">
+                                    {% trans %}Zaloguj się{% endtrans %}
+                                </button>
+
+                                <a href="{{ path('app_forgot_password_request') }}"
+                                    class="{{ buttonSecondary() }} w-full sm:w-auto flex items-center justify-center text-center whitespace-nowrap {{ focusPrimaryWithPadding() }}">
+                                    {% trans %}Nie pamiętam hasła{% endtrans %}
+                                </a>
+                            </div>
+                        </form>
+
+                        <div class="flex items-center">
+                            <div class="bg-zinc-100 h-0.5 w-full dark:bg-zinc-700"></div>
+
+                            <div class="px-5 text-center text-zinc-500 whitespace-nowrap dark:text-zinc-300">
+                                {% trans %}Jeśli nie masz konta{% endtrans %}
+                            </div>
+
+                            <div class="bg-zinc-100 h-0.5 w-full dark:bg-zinc-700"></div>
+                        </div>
+
+                        <div class="flex gap-x-4 items-center justify-between">
+
+                            <a href="{{ path('guest_dashboard') }}"
+                                class="{{ buttonSecondary() }} text-center w-full {{ focusPrimaryWithPadding() }}">
+                                {% trans %}Wejdź jako gość bez logowania{% endtrans %}
+                            </a>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <footer class="bg-zinc-900 py-10 text-zinc-100">
+        <div class="mx-auto max-w-screen-2xl px-4 text-center">
+            <ul class="flex flex-col md:flex-row justify-center items-center">
+                <li>
+                    <a href="https://vizja.pl/kontakt/#biuro-rekrutacji" class="block px-4 py-2 rounded-lg underline hover:text-yellow-400 {{ focusPrimary() }}" target="_blank">
+                        {% trans %}Biuro Rekrutacji{% endtrans %}
+                    </a>
+                </li>
+                <li>
+                    <a href="https://bon.vizja.pl/kontakt/" class="block px-4 py-2 rounded-lg underline hover:text-yellow-400 {{ focusPrimary() }}" target="_blank">
+                        {% trans %}Kontakt{% endtrans %}
+                    </a>
+                </li>
+                <li>
+                    <a href="https://vizja.pl/kontakt/#social-media" class="block px-4 py-2 rounded-lg underline hover:text-yellow-400 {{ focusPrimary() }}" target="_blank">
+                        {% trans %}Social media{% endtrans %}
+                    </a>
+                </li>
+                <li>
+                    <a href="https://vizja.pl/polityka-prywatnosci" class="block px-4 py-2 rounded-lg underline hover:text-yellow-400 {{ focusPrimary() }}" target="_blank">
+                        {% trans %}Polityka prywatności{% endtrans %}
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="block px-4 py-2 rounded-lg underline hover:text-yellow-400 {{ focusPrimary() }}" target="_blank">
+                        {% trans %}Deklaracja dostępności{% endtrans %}
+                    </a>
+                </li>
+            </ul>
+
+            <div class="my-10"></div>
+
+            <div class="flex flex-col justify-center items-center">
+                {% if app.request.locale == 'pl' %}
+                    <img alt="{% trans %}Logo Uniwersytetu Vizja{% endtrans %}"
+                        class="max-w-65 mb-10"
+                        src="{{ asset('images/logo/uv/logo_pl_PL_poziom_kontra.png') }}">
+                {% elseif app.request.locale == 'en' %}
+                    <img alt="{% trans %}Logo Uniwersytetu Vizja{% endtrans %}"
+                        class="max-w-65 mb-10"
+                        src="{{ asset('images/logo/uv/logo_en_US_poziom_kontra.png') }}">
+                {% endif %}
+
+            </div>
+
+            <div class="flex flex-col justify-center items-center gap-y-2 text-sm">
+                <div>
+                    {% trans %}ul. Okopowa 59{% endtrans %}
+                </div>
+                <div>
+                    01-043, {% trans %}Warszawa{% endtrans %}
+                </div>
+                <div>
+                    {% trans %}piętro{% endtrans %} II, {% trans %}pokój{% endtrans %} 233
+                </div>
+                <div class="mt-10 mb-5 px-4">
+                    <div class="max-w-screen-2xl mx-auto text-left">
+                        <div class="max-w-none">
+                            {% trans %}Program do zarządzania usługami Biura ds. Osób z Niepełnosprawnościami (BON) został opracowany przez Uniwersytet VIZJA w ramach realizacji projektu{% endtrans %}
+                            <a class="underline" target="_blank" rel="noopener noreferrer"
+                                href="https://vizja.pl/projekty-europejskie/vizja-home-uczelnia-dla-wszystkich/">
+                                {% trans %}Vizja Home – Uczelnia dla wszystkich{% endtrans %}
+                            </a>
+                            {% trans %}w ramach programu Fundusze Europejskie dla Rozwoju Społecznego 2021-2027 współfinansowanego ze środków Europejskiego Funduszu Społecznego Plus i objęty jest w całości licencją{% endtrans %}
+                            <a class="underline" target="_blank" rel="noopener noreferrer"
+                                href="https://creativecommons.org/licenses/by/4.0/legalcode.pl">
+                                {% trans %}Creative Commons Uznanie autorstwa CC BY 4.0{% endtrans %}
+                            </a>.
+                            <p class="mt-2">
+                                <a class="underline wrap-break-word" rel="noopener noreferrer"
+                                    href="{{ url('guest_license_index') }}">
+                                    {% trans %}Więcej o Help VIZJA i licencji{% endtrans %}
+                                </a>
+                            </p>
+
+                            <div class="mt-7">
+                                <div class="flex items-center gap-2" role="img" aria-label="{% trans %}Logo licencji Creative Commons – Uznanie autorstwa{% endtrans %}">
+                                    <svg class="fill-white w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                                        <path
+                                            d="M317.8 278.9L284.6 296.2C275.2 276.6 259.4 276.3 257.1 276.3C235 276.3 223.9 290.9 223.9 320.1C223.9 343.7 233.1 363.9 257.1 363.9C271.6 363.9 281.7 356.8 287.7 342.6L318.3 358.1C312.1 369.6 292.6 397.1 253.2 397.1C230.6 397.1 179.2 386.8 179.2 320.1C179.2 261.4 222.2 243 251.8 243C282.5 243 304.5 254.9 317.8 278.9zM460.8 278.9L428 296.2C418.5 276.4 402.3 276.3 400.1 276.3C378 276.3 366.9 290.9 366.9 320.1C366.9 343.6 376.1 363.9 400.1 363.9C414.5 363.9 424.7 356.8 430.6 342.6L461.6 358.1C459.5 361.9 440.2 397.1 396.5 397.1C373.8 397.1 322.5 387.2 322.5 320.1C322.5 261.4 365.5 243 395.1 243C425.8 243 447.7 254.9 460.7 278.9zM319.6 72C176.7 72 72 187.1 72 320.1C72 458.5 185.6 568.1 319.6 568.1C449.5 568.1 568 467.2 568 320.1C568 182.2 461.4 72 319.6 72zM320.5 522.8C208 522.8 116.8 429.8 116.8 320C116.8 214.6 202.2 116.7 320.5 116.7C433 116.7 523.3 206.2 523.3 320C523.3 441.7 423.6 522.8 320.5 522.8z" />
+                                    </svg>
+                                    <svg class="fill-white w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                                        <path
+                                            d="M386.9 258.4L386.9 359.8L358.6 359.8L358.6 480.3L281.5 480.3L281.5 359.9L253.2 359.9L253.2 258.4C253.2 254 254.8 250.2 257.8 247.1C260.9 244 264.7 242.4 269.1 242.4L371 242.4C375.1 242.4 378.8 244 382.1 247.1C385.2 250.3 386.9 254 386.9 258.4zM354.4 193.9C354.6 213 339.4 228.6 320.3 228.8C301.2 229 285.6 213.8 285.4 194.7C285.2 175.6 300.4 160 319.5 159.8C338.6 159.6 354.2 174.8 354.4 193.9zM319.6 72C461.4 72 568 182.1 568 320C568 467.1 449.5 568 319.6 568C185.6 568 72 458.5 72 320C72 187.1 176.7 72 319.6 72zM320.4 116.7C202.2 116.7 116.7 214.6 116.7 320C116.7 429.8 207.9 522.8 320.4 522.8C423.6 522.8 523.2 441.7 523.2 320C523.3 206.2 433 116.7 320.4 116.7z" />
+                                    </svg>
+                                </div>
+
+                                <div class="mt-2 wrap-break-word">
+                                    {% trans %}Ikony Creative Commons (CC){% endtrans %}:
+                                    <a
+                                        class="underline wrap-break-word"
+                                        rel="noopener noreferrer"
+                                        target="_blank"
+                                        href="https://fontawesome.com/"
+                                    >
+                                        Font Awesome
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock %}

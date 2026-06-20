@@ -1,0 +1,66 @@
+@startuml
+left to right direction
+
+actor "Student" as Student
+actor "Pracownik BON" as Worker
+actor "Administrator" as Admin
+actor "Microsoft Teams" as Teams
+
+rectangle "System obsługi wniosków i konsultacji BON" {
+  usecase "Logowanie do systemu" as UC1
+
+  usecase "Wypełnienie wniosku" as UC2
+  usecase "Dodanie załączników" as UC3
+  usecase "Wysłanie wniosku" as UC4
+  usecase "Podgląd statusu wniosku" as UC5
+
+  usecase "Zapis na konsultację" as UC6
+  usecase "Zapis na wizytę w biurze BON" as UC7
+  usecase "Podgląd terminu konsultacji" as UC8
+
+  usecase "Przeglądanie wniosków" as UC9
+  usecase "Weryfikacja wniosku" as UC10
+  usecase "Dodanie komentarza pracownika" as UC11
+  usecase "Zmiana statusu wniosku" as UC12
+
+  usecase "Tworzenie konsultacji" as UC13
+  usecase "Tworzenie terminów wizyt" as UC14
+  usecase "Generowanie spotkania Teams" as UC15
+
+  usecase "Zarządzanie słownikami" as UC16
+  usecase "Zarządzanie użytkownikami" as UC17
+}
+
+Student --> UC1
+Student --> UC2
+Student --> UC3
+Student --> UC4
+Student --> UC5
+Student --> UC6
+Student --> UC7
+Student --> UC8
+
+Worker --> UC1
+Worker --> UC9
+Worker --> UC10
+Worker --> UC11
+Worker --> UC12
+Worker --> UC13
+Worker --> UC14
+
+Admin --> UC1
+Admin --> UC16
+Admin --> UC17
+
+Teams --> UC15
+
+UC4 ..> UC2 : <<include>>
+UC4 ..> UC3 : <<include>>
+UC10 ..> UC11 : <<extend>>
+UC10 ..> UC12 : <<include>>
+
+UC13 ..> UC15 : <<include>>
+UC6 ..> UC13 : <<uses>>
+UC7 ..> UC14 : <<uses>>
+
+@enduml
