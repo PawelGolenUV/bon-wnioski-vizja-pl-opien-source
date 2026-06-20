@@ -1,6 +1,6 @@
 Bon Wnioski Wizja PL
 
-Aplikacja webowa wykonana w Symfony do obsługi wniosków studenckich, zapisów na konsultacje oraz wizyt w Biurze Osób z Niepełnosprawnościami (BON).
+Aplikacja webowa wykonana w Symfony do obsługi wniosków studenckich, zapisów na konsultacje oraz wizyt w Biurze fd. Osób z Niepełnosprawnościami (BON).
 
 System umożliwia składanie i obsługę wniosków, zarządzanie konsultacjami, rezerwację wizyt oraz integrację z Microsoft Teams poprzez automatyczne tworzenie spotkań online.
 
