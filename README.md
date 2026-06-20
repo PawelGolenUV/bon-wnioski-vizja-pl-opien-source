@@ -137,7 +137,7 @@ php bin/console debug:container
 php bin/console doctrine:mapping:info
 ```
 
-## Dokumentacja
+## Dokumentacja (wygenerowana automatycznie w katalogu Dokumentacja -> index.html)
 
 Generowanie dokumentacji:
 
@@ -151,13 +151,41 @@ Otwieranie dokumentacji:
 open docs/api/index.html
 ```
 
-## Diagram ERD
+## Wymagania funkcjonalne
+
+1. System umożliwia użytkownikowi logowanie do aplikacji.
+2. System rozróżnia role użytkowników: student, pracownik BON oraz administrator.
+3. System umożliwia studentowi utworzenie nowego wniosku.
+4. System umożliwia studentowi przechodzenie przez kolejne kroki formularza wniosku.
+5. System umożliwia zapis danych osobowych oraz danych dotyczących studiów.
+6. System umożliwia dodanie informacji o wymaganych adaptacjach.
+7. System umożliwia dodawanie załączników do wniosku.
+8. System umożliwia podgląd podsumowania wniosku przed wysłaniem.
+9. System umożliwia wysłanie gotowego wniosku.
+10. System umożliwia studentowi podgląd statusu złożonego wniosku.
+11. System umożliwia pracownikowi BON przeglądanie złożonych wniosków.
+12. System umożliwia pracownikowi BON weryfikację wniosku.
+13. System umożliwia pracownikowi BON dodanie komentarza do wniosku.
+14. System umożliwia zmianę statusu wniosku.
+15. System umożliwia studentowi zapisanie się na konsultację.
+16. System umożliwia studentowi zapisanie się na wizytę w biurze BON.
+17. System umożliwia studentowi podgląd zarezerwowanego terminu konsultacji lub wizyty.
+18. System umożliwia pracownikowi BON tworzenie terminów konsultacji.
+19. System umożliwia pracownikowi BON tworzenie terminów wizyt w biurze BON.
+20. System automatycznie tworzy spotkanie Microsoft Teams podczas tworzenia konsultacji online.
+21. System zapisuje link do spotkania Teams przy terminie konsultacji.
+22. System umożliwia administratorowi zarządzanie danymi słownikowymi.
+23. System umożliwia administratorowi zarządzanie użytkownikami.
+24. System waliduje dane wprowadzane w formularzach.
+25. System zapisuje dane w relacyjnej bazie danych.
+
+## Diagram ERD (wygenerowany już w katalogu Diagramy)
 
 ```bash
 php bin/console doctrine:diagram:er --filename=docs/diagrams/database --format=svg
 ```
 
-## Diagram UML
+## Diagram UML (wygenerowany już w katalogu Diagramy)
 
 ```bash
 php bin/console doctrine:diagram:class --filename=docs/diagrams/uml --format=puml
@@ -188,6 +216,24 @@ Testowanie zostało przeprowadzone ręcznie poprzez sprawdzenie:
 - obsługi błędnych danych wejściowych.
 
 Testy ręczne wykonano w środowisku developerskim Symfony.
+
+## Wymagania niefunkcjonalne
+
+1. Aplikacja powinna być dostępna przez przeglądarkę internetową.
+2. System powinien być wykonany w technologii Symfony.
+3. Dane powinny być przechowywane w relacyjnej bazie danych MySQL/MariaDB.
+4. System powinien posiadać podział na warstwę prezentacji, logiki biznesowej i dostępu do danych.
+5. Interfejs użytkownika powinien być czytelny i responsywny.
+6. System powinien walidować dane po stronie serwera.
+7. Dostęp do funkcji systemu powinien być ograniczony na podstawie roli użytkownika.
+8. Hasła użytkowników powinny być przechowywane w postaci zahashowanej.
+9. System powinien zapewniać kontrolę dostępu do danych wniosków oraz konsultacji.
+10. Integracja z Microsoft Teams powinna automatyzować tworzenie spotkań online.
+11. System powinien zapisywać informacje o terminach konsultacji i wizyt w sposób spójny z bazą danych.
+12. Kod aplikacji powinien być zgodny ze strukturą projektu Symfony.
+13. System powinien umożliwiać łatwe uruchomienie w środowisku developerskim.
+14. Aplikacja powinna umożliwiać dalszą rozbudowę o kolejne typy wniosków i konsultacji.
+15. Dokumentacja techniczna powinna zawierać opis kodu, diagram klas oraz diagram bazy danych.
 
 ## Struktura projektu
 
