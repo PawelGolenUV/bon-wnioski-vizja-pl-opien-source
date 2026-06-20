@@ -350,7 +350,3 @@ docs/
 ```
 
 ---
-
-# Autor
-
-Projekt wykonany na potrzeby zaliczenia ćwiczeń.
