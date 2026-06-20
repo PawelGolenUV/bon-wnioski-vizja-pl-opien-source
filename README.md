@@ -1,157 +1,155 @@
-# Bon Wnioski Wizja PL
+Bon Wnioski Wizja PL
 
-Aplikacja webowa wykonana w Symfony do obsługi wniosków studenckich, zapisów na konsultacje oraz wizyt w biurze BON.
-Jest również dostępna w wersji produkcyjnej na help.vizja.pl
+Aplikacja webowa wykonana w Symfony do obsługi wniosków studenckich, zapisów na konsultacje oraz wizyt w Biurze Osób z Niepełnosprawnościami (BON).
 
-## Technologie
+System umożliwia składanie i obsługę wniosków, zarządzanie konsultacjami, rezerwację wizyt oraz integrację z Microsoft Teams poprzez automatyczne tworzenie spotkań online.
 
-- PHP 8.x
-- Symfony 7.x
-- Doctrine ORM
-- MySQL / MariaDB
-- Twig
-- Tailwind CSS / Flowbite
-- Composer
+Aplikacja jest również dostępna w wersji produkcyjnej pod adresem:
 
-## Instalacja projektu
+https://help.vizja.pl
 
-### Instalacja zależności
+⸻
 
-```bash
+Technologie
+
+* PHP 8.x
+* Symfony 7.x
+* Doctrine ORM
+* MySQL / MariaDB
+* Twig
+* Tailwind CSS
+* Flowbite
+* JavaScript
+* Yarn / NPM
+* Docker Compose
+* Composer
+* Microsoft Graph API (integracja z Microsoft Teams)
+
+⸻
+
+Instalacja projektu
+
+Instalacja zależności PHP
+
 composer install
-```
 
-### Instalacja zależności frontendowych
+Instalacja zależności frontendowych
 
-Jeżeli projekt wykorzystuje Tailwind CSS, Webpack Encore lub AssetMapper z dodatkowymi bibliotekami JavaScript, należy zainstalować zależności frontendowe:
+Yarn
 
-#### Yarn
-
-```bash
 yarn install
-```
 
-#### NPM
+NPM
 
-```bash
 npm install
-```
 
-### Budowanie assetów
+Budowanie assetów
 
-Tryb developerski:
+Tryb developerski
 
-```bash
 yarn dev
-```
 
 lub
 
-```bash
 npm run dev
-```
 
-Tryb produkcyjny:
+Tryb produkcyjny
 
-```bash
 yarn build
-```
 
 lub
 
-```bash
 npm run build
-```
 
-### Konfiguracja środowiska
+⸻
 
-Skopiuj plik `.env`:
+Konfiguracja środowiska
 
-```bash
+Skopiuj plik .env:
+
 cp .env .env.local
-```
 
 Skonfiguruj połączenie z bazą danych:
 
-```env
 DATABASE_URL="mysql://user:password@127.0.0.1:3306/bon_wnioski?serverVersion=8.0"
-```
 
-## Baza danych
+⸻
 
-### Utworzenie bazy
+Baza danych
 
-```bash
+Utworzenie bazy danych
+
 php bin/console doctrine:database:create
-```
 
-### Migracje
+Wykonanie migracji
 
-```bash
 php bin/console doctrine:migrations:migrate
-```
 
-### Fixtures
+Załadowanie danych testowych (fixtures)
 
-```bash
 php bin/console doctrine:fixtures:load
-```
 
-Lub bez czyszczenia danych:
+Lub bez usuwania istniejących danych:
 
-```bash
 php bin/console doctrine:fixtures:load --append
-```
 
-## Uruchomienie aplikacji
+⸻
 
-### Symfony CLI
+Uruchomienie aplikacji
 
-```bash
+Symfony CLI
+
 make start
-```
 
-## Przydatne komendy
+⸻
 
-### Cache
+Przydatne komendy
 
-```bash
+Czyszczenie cache
+
 make clear
-```
 
-### Trasy
+Lista tras
 
-```bash
 php bin/console debug:router
-```
 
-### Serwisy
+Lista serwisów
 
-```bash
 php bin/console debug:container
-```
 
-### Encje
+Informacje o encjach Doctrine
 
-```bash
 php bin/console doctrine:mapping:info
-```
 
-## Dokumentacja (wygenerowana automatycznie w katalogu Dokumentacja -> index.html)
+⸻
+
+Dokumentacja
+
+Dokumentacja techniczna została wygenerowana automatycznie przy użyciu phpDocumentor.
 
 Generowanie dokumentacji:
 
-```bash
 vendor/bin/phpdoc -d src -t docs/api
-```
 
 Otwieranie dokumentacji:
 
-```bash
 open docs/api/index.html
-```
 
-## Wymagania funkcjonalne
+W repozytorium znajdują się również:
+
+* diagram klas UML,
+* diagram ERD bazy danych,
+* diagram przypadków użycia,
+* wymagania funkcjonalne,
+* wymagania niefunkcjonalne.
+
+Dokumentacja znajduje się w katalogu:
+
+Dokumentacja/
+
+⸻
+
+Wymagania funkcjonalne
 
 1. System umożliwia użytkownikowi logowanie do aplikacji.
 2. System rozróżnia role użytkowników: student, pracownik BON oraz administrator.
@@ -179,45 +177,9 @@ open docs/api/index.html
 24. System waliduje dane wprowadzane w formularzach.
 25. System zapisuje dane w relacyjnej bazie danych.
 
-## Diagram ERD (wygenerowany już w katalogu Diagramy)
+⸻
 
-```bash
-php bin/console doctrine:diagram:er --filename=docs/diagrams/database --format=svg
-```
-
-## Diagram UML (wygenerowany już w katalogu Diagramy)
-
-```bash
-php bin/console doctrine:diagram:class --filename=docs/diagrams/uml --format=puml
-```
-
-Jeżeli PlantUML nie obsługuje namespace'ów:
-
-```bash
-cp docs/diagrams/uml.puml docs/diagrams/uml-fixed.puml
-perl -pi -e 's/\\\\/./g' docs/diagrams/uml-fixed.puml
-plantuml -tsvg docs/diagrams/uml-fixed.puml
-```
-
-## Testowanie
-
-W projekcie nie zaimplementowano automatycznych testów jednostkowych.
-
-Testowanie zostało przeprowadzone ręcznie poprzez sprawdzenie:
-
-- logowania użytkownika,
-- tworzenia nowego wniosku,
-- przechodzenia pomiędzy krokami formularza,
-- walidacji pól formularzy,
-- dodawania załączników,
-- zapisu danych w bazie,
-- wyświetlania podsumowania wniosku,
-- działania panelu administracyjnego,
-- obsługi błędnych danych wejściowych.
-
-Testy ręczne wykonano w środowisku developerskim Symfony.
-
-## Wymagania niefunkcjonalne
+Wymagania niefunkcjonalne
 
 1. Aplikacja powinna być dostępna przez przeglądarkę internetową.
 2. System powinien być wykonany w technologii Symfony.
@@ -235,27 +197,102 @@ Testy ręczne wykonano w środowisku developerskim Symfony.
 14. Aplikacja powinna umożliwiać dalszą rozbudowę o kolejne typy wniosków i konsultacji.
 15. Dokumentacja techniczna powinna zawierać opis kodu, diagram klas oraz diagram bazy danych.
 
-## Struktura projektu
+⸻
 
-```text
+Diagram przypadków użycia
+
+Diagram przypadków użycia znajduje się w katalogu:
+
+Diagramy/use-case.svg
+
+Diagram przedstawia interakcje pomiędzy użytkownikami systemu (Student, Pracownik BON, Administrator) oraz głównymi funkcjonalnościami aplikacji:
+
+* składanie wniosków,
+* obsługa załączników,
+* zarządzanie statusem wniosków,
+* rejestracja na konsultacje,
+* rejestracja wizyt w biurze BON,
+* zarządzanie terminami konsultacji,
+* automatyczne tworzenie spotkań Microsoft Teams,
+* zarządzanie użytkownikami,
+* zarządzanie słownikami systemowymi.
+
+⸻
+
+Diagram ERD
+
+Diagram ERD bazy danych został wygenerowany automatycznie na podstawie encji Doctrine i znajduje się w katalogu:
+
+Diagramy/database.svg
+
+Generowanie diagramu:
+
+php bin/console doctrine:diagram:er --filename=docs/diagrams/database --format=svg
+
+⸻
+
+Diagram UML
+
+Diagram klas UML został wygenerowany automatycznie na podstawie encji Doctrine i znajduje się w katalogu:
+
+Diagramy/uml-fixed.svg
+
+Generowanie diagramu:
+
+php bin/console doctrine:diagram:class --filename=docs/diagrams/uml --format=puml
+
+Jeżeli PlantUML nie obsługuje namespace’ów:
+
+cp docs/diagrams/uml.puml docs/diagrams/uml-fixed.puml
+perl -pi -e 's/\\\\/./g' docs/diagrams/uml-fixed.puml
+plantuml -tsvg docs/diagrams/uml-fixed.puml
+
+⸻
+
+Testowanie
+
+W projekcie nie zaimplementowano automatycznych testów jednostkowych.
+
+Testowanie zostało przeprowadzone ręcznie poprzez sprawdzenie:
+
+* logowania użytkownika,
+* tworzenia nowego wniosku,
+* przechodzenia pomiędzy krokami formularza,
+* walidacji pól formularzy,
+* dodawania załączników,
+* zapisu danych w bazie danych,
+* wyświetlania podsumowania wniosku,
+* działania panelu administracyjnego,
+* rejestracji na konsultacje,
+* rejestracji wizyt w biurze BON,
+* generowania spotkań Microsoft Teams,
+* obsługi błędnych danych wejściowych.
+
+Testy ręczne wykonano w środowisku developerskim Symfony.
+
+⸻
+
+Struktura projektu
+
 src/
 ├── Controller/
 ├── Database/Entity/
 ├── Form/
 ├── Repository/
 ├── Service/
-└── Security/
-
+├── Security/
+└── EventSubscriber/
 templates/
 ├── student/
 ├── admin/
+├── consultation/
 └── base.html.twig
-
 docs/
 ├── api/
 └── diagrams/
-```
 
-## Autor
+⸻
+
+Autor
 
 Projekt wykonany na potrzeby zaliczenia ćwiczeń.
